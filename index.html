@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logística & Supply Chain Master</title>
+<style>
+:root{--azul:#1a3a5c;--gris:#f4f6f9;--naranja:#f39c12;--verde:#27ae60;--verde-bg:#e6f6ec;--verde-tx:#14532d;--rojo-bg:#fdecea;--rojo-tx:#7a1c14;--txt:#1f2933;--borde:#d5dbe3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:150px}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--gris);color:var(--txt);line-height:1.6;overflow-x:hidden}
+:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+header.top{position:sticky;top:0;z-index:50;background:var(--azul);color:#fff}
+.hwrap{padding:.6rem 1rem .2rem}
+.hwrap h1{margin:0;font-size:1.25rem}.hwrap p{margin:0;font-size:.85rem;opacity:.9}
+#prog{height:4px;background:var(--naranja);width:0}
+nav[role=tablist]{display:flex;gap:.25rem;overflow-x:auto;padding:.4rem .6rem 0}
+[role=tab]{flex:0 0 auto;background:transparent;color:#fff;border:0;border-radius:8px 8px 0 0;padding:.5rem .8rem;font:inherit;font-size:.9rem;cursor:pointer;white-space:nowrap}
+[role=tab][aria-selected=true]{background:var(--gris);color:var(--azul);font-weight:700;border-bottom:3px solid var(--naranja)}
+[role=tab] small{opacity:.8}
+main{max-width:920px;margin:0 auto;padding:1rem}
+[role=tabpanel]{background:#fff;border-radius:10px;padding:1rem 1.2rem 1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+h2{color:var(--azul);margin-top:0}h3{color:var(--azul);border-bottom:2px solid var(--naranja);padding-bottom:.2rem}
+.intro{font-size:1.05rem}
+.tw{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
+th,td{border:1px solid var(--borde);padding:.4rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--azul);color:#fff}tr:nth-child(even) td{background:var(--gris)}
+.caso{background:#fff4e0;border-left:6px solid var(--naranja);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
+.caso h4{margin:.1rem 0 .4rem;color:var(--azul)}
+.nota{font-size:.85rem;color:#445}
+.notas{font-size:.85rem;color:#445;border-top:1px solid var(--borde);margin-top:1rem}.notas h3{border:0;font-size:.95rem}
+.ideas{background:var(--gris);border-radius:8px;padding:.5rem 1rem;margin-top:1.2rem}
+.ideas h3{border:0;margin:.2rem 0}
+figure{margin:1rem 0}figure svg{width:100%;height:auto;max-width:100%}
+figcaption{font-size:.85rem;color:#445;text-align:center}
+.quiz{border:2px dashed var(--azul);border-radius:10px;padding:.6rem 1rem;margin:1.2rem 0;background:#fafcff}
+.quiz h4{margin:.2rem 0;color:var(--azul)}
+.q{border:0;padding:0;margin:.8rem 0}.q legend{font-weight:600;padding:0}
+.opc{display:block;width:100%;text-align:left;margin:.25rem 0;padding:.45rem .7rem;border:1px solid var(--azul);border-radius:6px;background:#fff;color:var(--txt);font:inherit;cursor:pointer}
+.opc:hover:not(:disabled){background:#eaf0f7}
+.opc.ok{background:var(--verde-bg);border-color:var(--verde);color:var(--verde-tx)}
+.opc.mal{background:var(--rojo-bg);border-color:#c0392b;color:var(--rojo-tx)}
+.fb{font-size:.9rem;margin:.2rem 0;min-height:1.2em}
+.btn{background:var(--azul);color:#fff;border:0;border-radius:6px;padding:.5rem 1rem;font:inherit;cursor:pointer}
+.btn.sec2{background:#fff;color:var(--azul);border:1px solid var(--azul)}
+.bloq{display:none}
+#fab{position:fixed;left:1rem;bottom:1rem;z-index:60;background:var(--naranja);color:var(--azul);font-weight:700;border:0;border-radius:999px;padding:.7rem 1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+#arriba{position:fixed;right:1rem;bottom:1rem;z-index:60;background:var(--azul);color:#fff;border:0;border-radius:50%;width:2.8rem;height:2.8rem;font-size:1.2rem;cursor:pointer;display:none}
+.overlay{position:fixed;inset:0;background:rgba(10,25,45,.65);z-index:100;display:none;align-items:center;justify-content:center;padding:1rem}
+.overlay.on{display:flex}
+.dlg{background:#fff;border-radius:12px;max-width:520px;width:100%;max-height:92vh;overflow:auto;padding:1.2rem}
+.dlg label{display:block;margin:.6rem 0 .1rem;font-weight:600;font-size:.9rem}
+.dlg input[type=text],.dlg input[type=email],.dlg input[type=tel]{width:100%;padding:.5rem;border:1px solid #7b8794;border-radius:6px;font:inherit}
+.err{color:#a5281b;font-size:.82rem;min-height:1em}
+.legal{font-size:.8rem;background:var(--gris);padding:.5rem;border-radius:6px;margin-top:.6rem}
+#avance{position:fixed;top:0;right:0;height:100%;width:min(380px,100%);background:#fff;z-index:110;padding:1rem;overflow:auto;box-shadow:-3px 0 12px rgba(0,0,0,.3);transform:translateX(105%);transition:transform .25s}
+#avance.on{transform:none}
+.barra{background:var(--borde);border-radius:6px;height:10px;overflow:hidden}.barra i{display:block;height:100%;background:var(--naranja)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:4.5rem;background:#333;color:#fff;padding:.4rem .9rem;border-radius:6px;font-size:.8rem;z-index:120;display:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#avance{transition:none}}
+@media(max-width:600px){main{padding:.5rem}[role=tabpanel]{padding:.8rem}}
+
+.glos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.65rem;margin-top:.8rem}
+.glos-item{border:1px solid var(--borde);border-left:4px solid var(--naranja);border-radius:7px;padding:.65rem .8rem;background:#fff}
+.glos-item strong{display:block;color:var(--azul);margin-bottom:.2rem}
+#buscar-glosario{box-sizing:border-box}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="hwrap"><h1>Logística &amp; Supply Chain Master</h1><p>Recurso académico con enfoque colombiano</p></div>
+  <nav id="tabs" role="tablist" aria-label="Temas del curso"></nav>
+  <div id="prog" aria-hidden="true"></div>
+</header>
+<main id="main"></main>
+<button id="fab" aria-label="Abrir panel Mi avance">📊 Mi avance</button>
+<button id="arriba" aria-label="Volver arriba">↑</button>
+<div id="toast" class="toast" role="status"></div>
+
+<!-- Modal de inscripción -->
+<div id="insc" class="overlay" role="dialog" aria-modal="true" aria-labelledby="insc-t">
+  <form class="dlg" id="f-insc" novalidate>
+    <h2 id="insc-t">Inscripción</h2>
+    <label for="i-nom">Nombre completo</label><input id="i-nom" type="text" autocomplete="name"><div class="err" id="e-nom"></div>
+    <label for="i-doc">Número de documento (solo dígitos)</label><input id="i-doc" type="tel" inputmode="numeric"><div class="err" id="e-doc"></div>
+    <label for="i-fic">Ficha o grupo</label><input id="i-fic" type="text"><div class="err" id="e-fic"></div>
+    <label for="i-cor">Correo (opcional)</label><input id="i-cor" type="email" autocomplete="email"><div class="err" id="e-cor"></div>
+    <div class="legal"><label style="font-weight:400;margin:0"><input type="checkbox" id="i-ley"> Tus datos de inscripción, avance, puntajes y eventos de seguridad de la evaluación se registran con fines académicos de seguimiento por parte del docente, conforme a la Ley 1581 de 2012 de protección de datos personales. <em>[ajustar texto según la política de la institución]</em></label></div>
+    <div class="err" id="e-ley"></div>
+    <p><button class="btn" type="submit">Registrarme y empezar</button></p>
+  </form>
+</div>
+
+<!-- Panel Mi avance -->
+<aside id="avance" role="dialog" aria-modal="true" aria-labelledby="av-t" aria-hidden="true">
+  <h2 id="av-t">Mi avance</h2><div id="av-body"></div>
+  <p><button class="btn" id="av-cerrar">Cerrar</button> <button class="btn sec2" id="av-cambiar">Cambiar de estudiante</button></p>
+</aside>
+
+<script>
+"use strict";
+/* ============================================================
+   CONFIGURACIÓN (el docente puede editar estas constantes)
+   ============================================================ */
+// 1) En Google Apps Script: Implementar > Nueva implementación > Aplicación web (acceso: "Cualquier persona").
+//    Copia la URL que termina en /exec y pégala abajo. 2) TOKEN: debe ser IGUAL al TOKEN del script de Apps Script.
+const URL_APPS_SCRIPT = "PEGAR_AQUI_URL_DE_LA_APLICACION_WEB";
+const TOKEN = "CAMBIA_ESTE_TOKEN";
+const QUIZ_CADA_N_SECCIONES = 2;        // un mini quiz cada N secciones
+const BLOQUEAR_AVANCE_SIN_QUIZ = false; // true: oculta lo que sigue hasta resolver el mini quiz
+const MIN_SEG_LECTURA = 8;              // segundos visibles para contar una sección como leída
+const SEGUNDOS_MIN_SALIDA_LECTURA = 30; // salida de la pestaña que se reporta en lectura
+const MAX_COLA = 500;                   // eventos máximos en la cola de envío
+const AGRUPAR_PROGRESO_MS = 4000;       // agrupamiento de eventos "progreso"
+const PUNTOS_1ER_INTENTO = 10, PUNTOS_2DO_INTENTO = 5;
+window.EVAL_ACTIVA = false;             // la Fase 3 la pondrá en true durante la evaluación interna
+
+/* ============================================================
+   UTILIDADES Y ALMACENAMIENTO (localStorage con respaldo en memoria)
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const memoria = {}; let avisoAlmacen = false;
+const LS = {
+  get(k){ try { const v = localStorage.getItem(k); return v === null ? (memoria[k] ?? null) : v; } catch(e){ avisarAlmacen(); return memoria[k] ?? null; } },
+  set(k,v){ memoria[k] = v; try { localStorage.setItem(k, v); } catch(e){ avisarAlmacen(); } },
+  del(k){ delete memoria[k]; try { localStorage.removeItem(k); } catch(e){ avisarAlmacen(); } }
+};
+function avisarAlmacen(){ if(!avisoAlmacen){ avisoAlmacen = true; toast("Tu navegador no permite guardar datos: el avance solo durará mientras no cierres la página."); } }
+function toast(t){ const e = $("#toast"); e.textContent = t; e.style.display = "block"; clearTimeout(toast.t); toast.t = setTimeout(()=>e.style.display = "none", 5000); }
+function el(tag, cls, html){ const e = document.createElement(tag); if(cls) e.className = cls; if(html !== undefined) e.innerHTML = html; return e; }
+function leerJSON(k, def){ try { const v = LS.get(k); return v ? JSON.parse(v) : def; } catch(e){ return def; } }
+function nuevoUid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+
+/* ============================================================
+   VALIDACIONES
+   ============================================================ */
+const validarDocumento = d => /^\d{5,15}$/.test(d);
+const validarCorreo = c => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c);
+const validarNombre = n => n.trim().length >= 5 && /\p{L}+\s+\p{L}+/u.test(n.trim());
+
+/* ============================================================
+   ESTADO: estudiante y avance (por documento)
+   ============================================================ */
+let est = leerJSON("lsm_est", null);
+let prog = { leidas: {}, quizzes: {}, evaluacion: null };
+const claveProg = () => "lsm_prog_" + est.documento;
+function cargarProg(){ prog = Object.assign({ leidas: {}, quizzes: {}, evaluacion: null }, leerJSON(claveProg(), {})); }
+function guardarProg(){ if(est) LS.set(claveProg(), JSON.stringify(prog)); }
+
+/* ============================================================
+   COLA DE ENVÍO A GOOGLE SHEETS
+   ============================================================ */
+const urlConfigurada = () => URL_APPS_SCRIPT && !URL_APPS_SCRIPT.startsWith("PEGAR_AQUI");
+let enviando = false;
+function leerCola(){ return leerJSON("lsm_cola", []); }
+function guardarCola(c){ LS.set("lsm_cola", JSON.stringify(c.slice(-MAX_COLA))); }
+/** Encola un evento y lo intenta enviar. tipo: registro|progreso|quiz|evaluacion|alerta|salida_lectura */
+function encolar(tipo, datos){
+  if(!est) return;
+  const ev = { token: TOKEN, uid: nuevoUid(), tipo, estudiante: { documento: est.documento, nombre: est.nombre, ficha: est.ficha, correo: est.correo || "" }, datos };
+  const c = leerCola(); c.push(ev); guardarCola(c); vaciarCola();
+}
+/** Envía los eventos en orden. Con no-cors no hay confirmación: si fetch no falla, se da por enviado. */
+async function vaciarCola(){
+  if(enviando || !urlConfigurada() || navigator.onLine === false) return;
+  enviando = true;
+  try {
+    let c = leerCola();
+    while(c.length){
+      const ev = c[0];
+      await fetch(URL_APPS_SCRIPT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, keepalive: true, body: JSON.stringify(ev) });
+      c = leerCola().filter(x => x.uid !== ev.uid); guardarCola(c);
+    }
+  } catch(e){ /* sin red: queda en cola y se reintenta */ }
+  enviando = false;
+}
+window.addEventListener("online", vaciarCola);
+setInterval(vaciarCola, 30000);
+
+/* ============================================================
+   MÓDULOS (cada pestaña es un bloque independiente)
+   Para agregar un tema: añade un objeto a MODULOS con
+   { id, titulo, emoji, intro, secciones:[{id,titulo,html}], banco:[[{p,o:[4],c,e}x3], ...], ideas:[] }
+   ============================================================ */
+const MODULOS = [];
+const TEMAS_EVAL = []; // Fase 3: preguntas de evaluación agrupadas por tema (distintas a los mini quizzes)
+
+/* --- Gráfico 1: flujo de la cadena --- */
+function svgFlujo(){
+  const n = ["Proveedor","Fábrica","Centro de distribución","Minorista","Cliente"]; let s = "";
+  n.forEach((t,i)=>{ const x = 10 + i*148;
+    s += `<rect x="${x}" y="30" width="116" height="52" rx="8" fill="#1a3a5c"/><text x="${x+58}" y="61" text-anchor="middle" fill="#fff" font-size="${t.length>12?10.5:13}">${t}</text>`;
+    if(i<4) s += `<path d="M${x+118} 56h28" stroke="#f39c12" stroke-width="3" marker-end="url(#fl)"/>`; });
+  return `<svg viewBox="0 0 750 160" role="img" aria-label="Flujo horizontal: proveedor, fábrica, centro de distribución, minorista y cliente. Debajo, flujos de información y financiero en sentido contrario"><defs><marker id="fl" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#f39c12"/></marker></defs>${s}
+  <text x="375" y="18" text-anchor="middle" font-size="12" fill="#1a3a5c">Flujo de material</text>
+  <path d="M700 100H50" stroke="#1a3a5c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#fl)"/><text x="375" y="118" text-anchor="middle" font-size="12" fill="#1a3a5c">Flujo de información (pedidos, pronósticos) y flujo financiero (pagos)</text>
+  <text x="375" y="145" text-anchor="middle" font-size="11" fill="#445">Las devoluciones recorren el camino inverso al del material (logística inversa)</text></svg>`;
+}
+/* --- Gráfico 2: línea de tiempo de Incoterms (riesgo y costo) --- */
+function svgIncoterms(){
+  const pts = ["Planta del vendedor","Entrega al transportista","Buque a bordo (puerto origen)","Puerto destino","Lugar de destino"];
+  const filas = [["EXW",0,0],["FCA",1,1],["FOB",2,2],["CIF / CFR",2,3],["CPT / CIP",1,4],["DAP / DPU / DDP",4,4]];
+  const X = i => 190 + i*130; let s = "";
+  pts.forEach((p,i)=>{ s += `<line x1="${X(i)}" y1="40" x2="${X(i)}" y2="${50+filas.length*34}" stroke="#d5dbe3"/><text x="${X(i)}" y="22" text-anchor="middle" font-size="10" fill="#1a3a5c">${p.length>22?p.slice(0,p.lastIndexOf(" ",22))+"</text><text x=\""+X(i)+"\" y=\"34\" text-anchor=\"middle\" font-size=\"10\" fill=\"#1a3a5c\">"+p.slice(p.lastIndexOf(" ",22)+1):p}</text>`; });
+  filas.forEach((f,j)=>{ const y = 62 + j*34;
+    s += `<text x="8" y="${y+4}" font-size="12" font-weight="700" fill="#1a3a5c">${f[0]}</text>`;
+    if(f[2]>0) s += `<rect x="${X(0)}" y="${y-5}" width="${X(f[2])-X(0)}" height="10" fill="#f39c12" opacity=".6"/>`;
+    s += `<polygon points="${X(f[1])},${y-10} ${X(f[1])+9},${y} ${X(f[1])},${y+10} ${X(f[1])-9},${y}" fill="#1a3a5c"/>`; });
+  return `<svg viewBox="0 0 760 ${70+filas.length*34}" role="img" aria-label="Línea de tiempo: el rombo marca dónde se transfiere el riesgo y la barra naranja hasta dónde paga el vendedor el transporte, para cada Incoterm"><title>Transferencia de riesgo y costo por Incoterm</title>${s}</svg>`;
+}
+
+/* ---------- PESTAÑA 1 ---------- */
+MODULOS.push({
+  id: "cs", titulo: "Cadena de suministro", emoji: "🌐",
+  intro: "Una empresa rara vez entrega valor sola: depende de proveedores, transportistas, distribuidores y clientes. Este tema explica cómo se organiza esa red, qué flujos la recorren, cómo se mide y por qué se distorsiona la demanda a medida que se sube por la cadena.",
+  secciones: [
+    { id: "cs-1", titulo: "Qué es una cadena de suministro y en qué se diferencia de la logística", html: `
+      <p>Cuando alguien compra una camiseta en un centro comercial ve una tienda, pero detrás hay un cultivo de algodón, una hilandería, un taller de confección, transporte marítimo, trámites aduaneros, una bodega y una vitrina. Esa red completa es la <strong>cadena de suministro</strong>: el conjunto de organizaciones, actividades, recursos e información que participan en llevar un producto o servicio desde sus materias primas hasta el consumidor final, y también en su retorno o reciclaje cuando corresponde.</p>
+      <p>La <strong>logística</strong>, según la definición del Council of Supply Chain Management Professionals (CSCMP), es la parte de la gestión de la cadena que planifica, implementa y controla el flujo y el almacenamiento eficientes de bienes, servicios e información entre el punto de origen y el de consumo, con el fin de atender los requerimientos del cliente. La diferencia es de alcance: la logística se ocupa de mover y almacenar bien; la gestión de la cadena de suministro decide además con qué socios trabajar, dónde ubicar plantas y bodegas, qué información se comparte y cómo se reparten costos, riesgos y beneficios entre las empresas. Como síntesis pedagógica: la logística es una función operativa, y la cadena es una red con decisiones estratégicas.</p>
+      <p>Se suelen distinguir cuatro componentes. El <strong>aprovisionamiento</strong> abarca selección de proveedores, negociación y compra. La <strong>producción</strong> transforma insumos en producto. La <strong>distribución</strong> almacena, transporta y entrega. Las <strong>devoluciones</strong>, o logística inversa, recuperan productos por garantías, errores o fin de vida útil. Lo importante es que no son independientes. Una importadora de repuestos en Bogotá que compra contenedores completos para obtener mejor precio unitario aumenta su inventario, necesita más espacio de bodega y asume más riesgo de obsolescencia. Lo que parece un ahorro en compras puede ser un sobrecosto en almacenamiento.</p>` },
+    { id: "cs-2", titulo: "Los tres flujos de la cadena", html: `
+      <figure>${svgFlujo()}<figcaption>Figura 1. Cadena básica y sus tres flujos (síntesis pedagógica).</figcaption></figure>
+      <p>Por la cadena circulan tres flujos. El <strong>flujo de material</strong> es el movimiento físico de insumos y productos hacia el cliente, y de las devoluciones en sentido contrario. El <strong>flujo de información</strong> incluye pronósticos, órdenes de compra, niveles de inventario, estados de despacho y confirmaciones de entrega, y circula en ambos sentidos. El <strong>flujo financiero</strong> comprende facturas, pagos, créditos y condiciones comerciales, y va principalmente del cliente hacia el proveedor.</p>
+      <p>Un ejemplo sencillo: un taller mecánico envía un pedido de pastillas de freno a su distribuidor (información), el distribuidor despacha la mercancía (material), emite la factura y el taller la paga a un plazo acordado (financiero). Si el pedido llega incompleto o tarde, el distribuidor no sabe cuánto reponer y la falla se propaga hacia atrás. Por eso la mayoría de problemas de una cadena nace en la información, y por eso la calidad del dato es tan importante como la capacidad del camión. El plazo de pago también tiene efecto: un proveedor pequeño que cobra a 60 días necesita financiar su operación durante ese tiempo, y eso se refleja en precios y en su capacidad de respuesta.</p>` },
+    { id: "cs-3", titulo: "El modelo SCOR", html: `
+      <p>SCOR (Supply Chain Operations Reference) es un modelo de referencia desarrollado por APICS, hoy ASCM, para describir, medir y mejorar cadenas de suministro con un lenguaje común. Organiza la cadena en procesos de gestión: <strong>Plan</strong> (equilibrar demanda y oferta), <strong>Source</strong> (aprovisionar), <strong>Make</strong> (producir), <strong>Deliver</strong> (entregar), <strong>Return</strong> (gestionar devoluciones) y <strong>Enable</strong> (administrar las reglas, datos, recursos y cumplimiento que sostienen a los demás).</p>
+      <div class="tw"><table><thead><tr><th>Proceso</th><th>Pregunta que responde</th><th>Ejemplo en una importadora de repuestos</th></tr></thead><tbody>
+      <tr><td>Plan</td><td>Cuánto se necesita y cuándo</td><td>Pronóstico mensual por referencia</td></tr>
+      <tr><td>Source</td><td>A quién se compra y cómo se recibe</td><td>Orden al proveedor y recepción en bodega</td></tr>
+      <tr><td>Make</td><td>Cómo se transforma o se prepara</td><td>Kitting o reempaque de repuestos</td></tr>
+      <tr><td>Deliver</td><td>Cómo llega al cliente</td><td>Despacho al taller y facturación</td></tr>
+      <tr><td>Return</td><td>Qué se hace con lo que regresa</td><td>Garantías y devoluciones</td></tr>
+      <tr><td>Enable</td><td>Qué reglas y datos lo sostienen</td><td>Políticas, sistemas e indicadores</td></tr></tbody></table></div>
+      <p>El modelo también define atributos de desempeño: confiabilidad (entregar lo prometido, a tiempo y completo), capacidad de respuesta, agilidad, costos y gestión de activos. La utilidad práctica está en el diagnóstico. Si una empresa tiene entregas tardías, SCOR obliga a preguntar si la falla está en el plan, en el aprovisionamiento, en la producción o en la entrega, en lugar de culpar al transportista por defecto. Como síntesis pedagógica, un buen uso en clase es tomar una empresa conocida y ubicar cada una de sus actividades en uno de los seis procesos.</p>` },
+    { id: "cs-4", titulo: "Tipos de cadena: eficiente, responsive, lean y ágil", html: `
+      <p>Marshall Fisher, en un artículo de 1997 publicado en Harvard Business Review, planteó que la cadena debe ajustarse al tipo de producto. Los <strong>productos funcionales</strong> (arroz, aceite, empaques) tienen demanda estable, ciclos de vida largos y márgenes bajos, y se benefician de una cadena <strong>eficiente</strong>, centrada en minimizar costos y mantener alta utilización. Los <strong>productos innovadores</strong> (moda, tecnología, flores de temporada) tienen demanda incierta, vida corta y márgenes altos, y requieren una cadena <strong>responsive</strong>, que invierte en capacidad de reserva y velocidad para no perder ventas.</p>
+      <p>Los términos <strong>lean</strong> y <strong>ágil</strong> aparecen en la literatura con matices parecidos. Lean busca eliminar desperdicio, y por eso encaja con productos de demanda estable. Ágil busca responder rápido a cambios de demanda y encaja con entornos volátiles. Christopher y Towill han discutido enfoques híbridos, en los que la cadena es lean hasta cierto punto y ágil cerca del cliente. Como síntesis pedagógica, una misma empresa puede manejar ambas lógicas: un fabricante de confecciones puede producir telas básicas de forma eficiente y reservar capacidad flexible para las referencias de temporada.</p>
+      <div class="tw"><table><thead><tr><th>Tipo</th><th>Objetivo principal</th><th>Producto típico</th><th>Riesgo si se elige mal</th></tr></thead><tbody>
+      <tr><td>Eficiente o lean</td><td>Costo mínimo y poco desperdicio</td><td>Granos, aceites, empaques</td><td>Sobrecostos por falta de eficiencia</td></tr>
+      <tr><td>Responsive o ágil</td><td>Velocidad y flexibilidad</td><td>Moda, flores, tecnología</td><td>Ventas perdidas o producto sobrante</td></tr></tbody></table></div>` },
+    { id: "cs-5", titulo: "El efecto látigo y cómo mitigarlo", html: `
+      <p>El <strong>efecto látigo</strong> es la amplificación de la variabilidad de los pedidos a medida que se sube por la cadena. Un cambio pequeño en las ventas al consumidor termina generando oscilaciones grandes en las órdenes al fabricante. Jay Forrester lo estudió en 1961 en su trabajo sobre dinámica industrial, y Lee, Padmanabhan y Whang (1997) explicaron cuatro causas.</p>
+      <p>La primera es el <strong>procesamiento de la señal de demanda</strong>: cada eslabón pronostica con base en los pedidos que recibe de su cliente inmediato, no en la demanda final, y añade inventario de seguridad. La segunda es el <strong>juego de racionamiento y escasez</strong>: si se espera que el proveedor asigne cupos proporcionalmente, los clientes piden más de lo que necesitan. La tercera es la <strong>agrupación de pedidos</strong>: se piden lotes grandes cada cierto tiempo para reducir costos de ordenar, y el proveedor percibe picos. La cuarta son las <strong>fluctuaciones de precio</strong>: las promociones incentivan compras anticipadas que no reflejan consumo real.</p>
+      <p>Un ejemplo ilustrativo: si el consumo en tienda sube de 100 a 110 unidades por semana, el minorista puede pedir 130 para ajustar su inventario, el distribuidor interpreta ese pedido como tendencia y pide 170 al fabricante, que llega a programar producción por encima de lo que realmente se vende. Las cifras son inventadas con fines didácticos.</p>
+      <p>Para mitigarlo, la propuesta de esos autores y de la práctica posterior, junto con síntesis pedagógica, incluye: compartir datos de punto de venta con toda la cadena, reducir el tamaño de lote y el tiempo de reposición, mantener precios estables en lugar de promociones agresivas, asignar cupos con base en ventas históricas y no en pedidos, y usar esquemas colaborativos como el inventario administrado por el proveedor (VMI).</p>` },
+    { id: "cs-6", titulo: "Caso práctico: flores colombianas de Bogotá a Miami", html: `
+      <div class="caso"><h4>Caso práctico</h4>
+      <p>Colombia es uno de los principales países exportadores de flores cortadas del mundo, y Estados Unidos es su mercado más importante, con Miami como principal puerta de entrada. Las flores se cultivan sobre todo en la sabana de Bogotá y en el oriente antioqueño. Se cortan temprano, se hidratan, se clasifican y se empacan en cajas que viajan bajo <strong>cadena de frío</strong> hasta el aeropuerto El Dorado, donde se cargan en aviones de carga.</p>
+      <div class="tw"><table><thead><tr><th>Etapa</th><th>Tiempo ilustrativo</th></tr></thead><tbody>
+      <tr><td>Corte y poscosecha en finca</td><td>12 a 24 horas</td></tr>
+      <tr><td>Transporte refrigerado hasta la terminal de carga</td><td>2 a 4 horas</td></tr>
+      <tr><td>Inspección y espera de vuelo</td><td>4 a 8 horas</td></tr>
+      <tr><td>Vuelo Bogotá a Miami</td><td>Alrededor de 4 horas</td></tr>
+      <tr><td>Inspección en destino, cuarto frío y distribución</td><td>12 a 24 horas</td></tr></tbody></table></div>
+      <p class="nota">Los tiempos son ilustrativos. Consulta datos vigentes con Asocolflores, el operador del aeropuerto y las aerolíneas de carga.</p>
+      <p><strong>Análisis.</strong> Es un producto perecedero con picos de demanda en fechas fijas, como San Valentín y el Día de la Madre. Por eso se acerca al modelo responsive: si el vuelo se cancela o se rompe la temperatura, el producto pierde valor en pocas horas y no se puede recuperar. Aquí el costo del flete aéreo, mucho mayor por kilo que el del mar, se justifica por la velocidad que exige la naturaleza del producto.</p></div>` }
+  ],
+  notas: ["La definición de logística sigue la del CSCMP; conviene contrastar la redacción exacta en su sitio oficial.","En versiones recientes de SCOR, ASCM reorganizó el proceso Enable como Orchestrate; confirma la versión que usa tu institución.","La referencia a Fisher (1997) y a Christopher y Towill debe contrastarse con los artículos originales.","La posición de Colombia entre los exportadores de flores debe consultarse en cifras vigentes de Asocolflores o del DANE.","Los plazos de pago entre empresas están regulados en Colombia; verifica la norma vigente antes de citar un plazo."],
+  banco: [
+    [ { p: "¿Qué distingue a la cadena de suministro de la logística?", o: ["Son sinónimos exactos","La cadena abarca a todos los actores y decisiones de red; la logística gestiona los flujos dentro de ella","La logística incluye a los clientes finales y la cadena no","La cadena solo trata de transporte"], c: 1, e: "La logística es una parte operativa de la gestión de la cadena, que además incluye estrategia y coordinación entre empresas." },
+      { p: "Un pedido de compra y el pago de una factura corresponden, respectivamente, a flujos de:", o: ["Material y financiero","Información y financiero","Información y material","Financiero y material"], c: 1, e: "El pedido es información; el pago es flujo financiero." },
+      { p: "Gestionar garantías y retornos de clientes corresponde al componente de:", o: ["Aprovisionamiento","Producción","Devoluciones (logística inversa)","Pronóstico"], c: 2, e: "Las devoluciones recorren la cadena en sentido inverso." } ],
+    [ { p: "¿Cuáles son los procesos del modelo SCOR citados en este curso?", o: ["Plan, Source, Make, Deliver, Return y Enable","Comprar, Vender, Pagar, Cobrar","Plan, Do, Check, Act","Recibir, Almacenar, Despachar"], c: 0, e: "SCOR organiza la cadena en Plan, Source, Make, Deliver, Return y Enable." },
+      { p: "Según Fisher, un producto funcional de demanda estable requiere una cadena:", o: ["Responsive","Eficiente","Sin inventarios","Basada en vuelos urgentes"], c: 1, e: "Con demanda predecible se minimiza costo." },
+      { p: "Un producto de moda con demanda impredecible pide una cadena:", o: ["Ágil o responsive","Lean sin holguras","Con lotes enormes","Sin proveedores"], c: 0, e: "Aquí pesa más la velocidad y flexibilidad que el costo mínimo." } ],
+    [ { p: "El efecto látigo consiste en que:", o: ["Los pedidos se vuelven más estables hacia el proveedor","La variabilidad de la demanda se amplifica aguas arriba","El cliente paga más","El transporte se vuelve más lento"], c: 1, e: "Pequeñas variaciones del consumo se amplifican en los pedidos." },
+      { p: "¿Qué medida ayuda a mitigarlo?", o: ["Aumentar los lotes de pedido","Ocultar datos de ventas a los proveedores","Compartir datos de punto de venta con toda la cadena","Promociones frecuentes de precio"], c: 2, e: "Si todos ven la demanda real, dejan de pronosticar sobre pedidos distorsionados." },
+      { p: "En el caso de las flores, la cadena de frío es crítica porque:", o: ["Reduce los impuestos","Los perecederos pierden valor si se rompe la temperatura","Lo exige el Incoterm","Aumenta el peso"], c: 1, e: "El valor de un perecedero depende de conservar su calidad hasta el cliente." } ]
+  ],
+  ideas: ["La cadena abarca toda la red; la logística es su parte operativa.","Material, información y dinero fluyen en distintos sentidos; casi todo problema nace en la información.","SCOR da un lenguaje común: Plan, Source, Make, Deliver, Return, Enable.","El tipo de cadena debe alinearse con el tipo de producto.","El efecto látigo se mitiga compartiendo la demanda real.","Flores: perecedero + fecha fija = cadena responsive con frío continuo."]
+});
+
+/* ---------- PESTAÑA 2 ---------- */
+MODULOS.push({
+  id: "tr", titulo: "Transporte", emoji: "🚛",
+  intro: "El transporte conecta los eslabones de la cadena y define buena parte de su costo y de su tiempo. Elegir bien el modo, el documento y el Incoterm es decidir quién paga, quién arriesga y quién responde en cada tramo.",
+  secciones: [
+    { id: "tr-1", titulo: "Modos de transporte y su comparación", html: `
+      <p>Los modos son <strong>marítimo, aéreo, carretero, férreo, fluvial</strong> y el <strong>multimodal</strong> (un solo contrato para combinar dos o más modos). La elección equilibra costo, tiempo, valor y fragilidad de la carga. Colombia mueve la mayor parte de su carga doméstica por carretera, mientras que el comercio exterior en volumen depende del mar; el fluvial (río Magdalena) y el férreo tienen un peso menor.</p>
+      <div class="tw"><table><thead><tr><th>Modo</th><th>Velocidad</th><th>Costo</th><th>Capacidad</th><th>Alcance</th><th>Sostenibilidad</th></tr></thead><tbody>
+      <tr><td>Marítimo</td><td>Baja</td><td>Bajo por tonelada</td><td>Muy alta</td><td>Puerto a puerto</td><td>Baja emisión por t-km</td></tr>
+      <tr><td>Aéreo</td><td>Muy alta</td><td>Muy alto</td><td>Baja</td><td>Aeropuertos</td><td>Alta emisión por t-km</td></tr>
+      <tr><td>Carretero</td><td>Media</td><td>Medio-alto</td><td>Baja-media</td><td>Puerta a puerta</td><td>Emisión media-alta</td></tr>
+      <tr><td>Férreo</td><td>Media</td><td>Bajo</td><td>Alta</td><td>Red fija</td><td>Baja emisión</td></tr>
+      <tr><td>Fluvial</td><td>Baja</td><td>Bajo</td><td>Alta</td><td>Cuencas navegables</td><td>Baja emisión</td></tr></tbody></table></div>
+      <p class="nota">Comparación cualitativa (síntesis pedagógica); consulta tarifas y tiempos vigentes con transportistas y agentes de carga.</p>` },
+    { id: "tr-2", titulo: "Documentos de transporte", html: `
+      <p>El <strong>Bill of Lading (BL)</strong> es el documento del transporte marítimo: prueba el contrato, acredita la recepción de la carga y, si es negociable, funciona como título representativo de la mercancía. La <strong>Guía Aérea (AWB)</strong> es el documento del transporte aéreo; no es negociable como título de propiedad. En carretera internacional se usa la <strong>carta de porte (CRT / CPIC en el marco andino)</strong> y el <strong>manifiesto de carga</strong>, que relaciona la mercancía transportada y su vehículo; en Colombia, el manifiesto de carga es exigido por la autoridad de transporte.</p>` },
+    { id: "tr-3", titulo: "Incoterms 2020: quién asume qué", html: `
+      <p>Los <strong>Incoterms 2020</strong> (ICC) son reglas voluntarias que fijan, entre comprador y vendedor, quién contrata el transporte, quién asume el riesgo y hasta dónde, y quién paga cada costo. No regulan la transferencia de propiedad ni el pago. Hay 11: siete para cualquier modo y cuatro para transporte marítimo y fluvial.</p>
+      <div class="tw"><table><thead><tr><th>Incoterm</th><th>Modo</th><th>El riesgo pasa al comprador…</th><th>Transporte principal</th><th>Seguro</th></tr></thead><tbody>
+      <tr><td>EXW</td><td>Cualquiera</td><td>En instalaciones del vendedor</td><td>Comprador</td><td>Libre</td></tr>
+      <tr><td>FCA</td><td>Cualquiera</td><td>Al entregar al transportista</td><td>Comprador</td><td>Libre</td></tr>
+      <tr><td>FAS</td><td>Marítimo/fluvial</td><td>Al costado del buque</td><td>Comprador</td><td>Libre</td></tr>
+      <tr><td>FOB</td><td>Marítimo/fluvial</td><td>A bordo del buque</td><td>Comprador</td><td>Libre</td></tr>
+      <tr><td>CFR</td><td>Marítimo/fluvial</td><td>A bordo (origen)</td><td>Vendedor</td><td>Libre</td></tr>
+      <tr><td><strong>CIF</strong></td><td>Marítimo/fluvial</td><td>A bordo (origen)</td><td>Vendedor</td><td><strong>Vendedor (cobertura mínima C)</strong></td></tr>
+      <tr><td>CPT</td><td>Cualquiera</td><td>Al primer transportista</td><td>Vendedor</td><td>Libre</td></tr>
+      <tr><td><strong>CIP</strong></td><td>Cualquiera</td><td>Al primer transportista</td><td>Vendedor</td><td><strong>Vendedor (cobertura A)</strong></td></tr>
+      <tr><td>DAP</td><td>Cualquiera</td><td>En destino, listo para descargar</td><td>Vendedor</td><td>Libre</td></tr>
+      <tr><td>DPU</td><td>Cualquiera</td><td>En destino, ya descargada</td><td>Vendedor</td><td>Libre</td></tr>
+      <tr><td>DDP</td><td>Cualquiera</td><td>En destino, listo para descargar</td><td>Vendedor (incluye importación)</td><td>Libre</td></tr></tbody></table></div>
+      <p class="nota">"Libre" = ninguna parte está obligada a asegurar frente a la otra. En EXW la exportación la gestiona el comprador; en los demás, el vendedor. En todos menos DDP, la importación es del comprador. Verifica el texto oficial de ICC.</p>` },
+    { id: "tr-4", titulo: "Línea de tiempo: dónde cambian riesgo y costo", html: `
+      <figure>${svgIncoterms()}<figcaption>Figura 2. Rombo azul: transferencia del riesgo. Barra naranja: tramo que paga el vendedor (esquema pedagógico).</figcaption></figure>
+      <p>Observa que en <strong>CIF/CFR</strong> y <strong>CPT/CIP</strong> el vendedor paga más lejos de donde deja de responder por el riesgo. Por eso el seguro importa: en CIF el vendedor contrata un seguro para beneficio del comprador, pero un daño en altamar es riesgo del comprador, que reclama a la aseguradora.</p>` },
+    { id: "tr-5", titulo: "Buques y contenedores: FCL vs LCL", html: `
+      <p>Los <strong>portacontenedores</strong> llevan carga unitizada; los <strong>graneleros</strong>, granos, carbón o minerales; los <strong>tanqueros</strong>, líquidos como petróleo o químicos; los <strong>Ro-Ro</strong> (roll-on/roll-off) vehículos y maquinaria rodante. Para contenedores existen dos modalidades:</p>
+      <div class="tw"><table><thead><tr><th></th><th>FCL (Full Container Load)</th><th>LCL (Less than Container Load)</th></tr></thead><tbody>
+      <tr><td>Uso</td><td>Un embarcador llena el contenedor</td><td>Carga consolidada con otros embarcadores</td></tr>
+      <tr><td>Conviene</td><td>Volumen grande o carga delicada</td><td>Volúmenes pequeños</td></tr>
+      <tr><td>Limitaciones</td><td>Requiere volumen</td><td>Más manipulación, más tiempo en consolidación y desconsolidación</td></tr></tbody></table></div>` },
+    { id: "tr-6", titulo: "Caso práctico: café colombiano a Europa", html: `
+      <div class="caso"><h4>Caso práctico</h4>
+      <p>Un exportador de café verde de Colombia envía contenedores a Rotterdam. La carga sale de una trilladora cerca de Bogotá en camión hasta Buenaventura, pasa por el puerto y se embarca en un buque portacontenedores hasta Rotterdam, con posible transbordo.</p>
+      <div class="tw"><table><thead><tr><th>Tramo</th><th>Tiempo ILUSTRATIVO</th><th>Costo ILUSTRATIVO</th></tr></thead><tbody>
+      <tr><td>Bogotá a Buenaventura (terrestre)</td><td>2–3 días</td><td>Tarifa por viaje</td></tr>
+      <tr><td>Puerto de Buenaventura (trámites y espera)</td><td>3–7 días</td><td>Tarifas portuarias</td></tr>
+      <tr><td>Buenaventura a Rotterdam (marítimo)</td><td>≈ 25–35 días</td><td>Flete por contenedor</td></tr></tbody></table></div>
+      <p class="nota">Cifras ilustrativas; consulta datos vigentes con navieras, agentes de carga y el observatorio de costos del Ministerio de Transporte. <em>Análisis:</em> bajo FOB Buenaventura el comprador europeo contrata el flete marítimo y asume el riesgo desde que la carga está a bordo; bajo CIF Rotterdam el exportador contrata flete y seguro. Para el exportador, FOB suele ser más simple; CIF ofrece más control del servicio pero obliga a gestionar naviera y póliza.</p></div>` }
+  ],
+  banco: [
+    [ { p: "¿Qué modo ofrece mayor capacidad y menor costo por tonelada para carga intercontinental a granel?", o: ["Aéreo","Carretero","Marítimo","Multimodal sin buque"], c: 2, e: "El mar permite mover enormes volúmenes a bajo costo, con menor velocidad." },
+      { p: "El Bill of Lading (BL) corresponde al transporte:", o: ["Aéreo","Marítimo","Férreo","Postal"], c: 1, e: "El BL es el documento del transporte marítimo." },
+      { p: "La guía aérea (AWB) se caracteriza por:", o: ["Ser un título de propiedad negociable","Ser el documento de transporte aéreo y no ser negociable como título","Reemplazar el seguro","Usarse solo en carretera"], c: 1, e: "La AWB acredita el contrato de transporte aéreo, pero no es un título negociable." } ],
+    [ { p: "¿En qué Incoterm el vendedor está obligado a contratar seguro para el comprador?", o: ["FOB y CFR","EXW y FCA","CIF y CIP","DAP y DDP"], c: 2, e: "CIF y CIP son los únicos que obligan al vendedor a asegurar (cobertura C y A, respectivamente)." },
+      { p: "¿En qué Incoterm se transfiere el riesgo en las instalaciones del vendedor?", o: ["EXW","FOB","DAP","CPT"], c: 0, e: "EXW: el vendedor solo pone la mercancía a disposición." },
+      { p: "Un Incoterm exclusivo de transporte marítimo y fluvial es:", o: ["FCA","CPT","DDP","FOB"], c: 3, e: "FAS, FOB, CFR y CIF son los marítimos y fluviales." } ],
+    [ { p: "FCL significa:", o: ["Carga consolidada con otros embarcadores","Contenedor completo para un solo embarcador","Carga suelta en bodega","Carga aérea"], c: 1, e: "FCL: Full Container Load." },
+      { p: "Una desventaja del LCL frente al FCL es:", o: ["Siempre cuesta menos","Mayor manipulación y tiempo por consolidar","No necesita documentos","Solo existe en tren"], c: 1, e: "Al consolidar y desconsolidar con otras cargas hay más manejo y espera." },
+      { p: "Los buques Ro-Ro se usan principalmente para:", o: ["Granos","Líquidos","Vehículos y carga rodante","Contenedores refrigerados"], c: 2, e: "Roll-on/roll-off: la carga entra rodando." } ]
+  ],
+  notas: ["Las cifras de participación de cada modo en Colombia deben consultarse en el Ministerio de Transporte y el DNP.","Normas de carta de porte y manifiesto de carga (Decisión 399 de la CAN y normas del Ministerio de Transporte): verifica texto y formatos vigentes.","El texto oficial de los Incoterms 2020 es el de la ICC; esta tabla es un resumen pedagógico.","Tarifas y tiempos del caso del café son ilustrativos: consulta navieras, agentes de carga y el sistema de costos de referencia del Ministerio de Transporte."],
+  ideas: ["Elegir modo es balancear costo, tiempo, valor de la carga y sostenibilidad.","BL, AWB y CRT/manifiesto son documentos distintos para modos distintos.","Los Incoterms fijan riesgo, costo y tareas; no la propiedad ni el pago.","Solo CIF y CIP obligan al vendedor a asegurar.","FCL = contenedor completo; LCL = consolidado, con más manipulación.","Todo valor de tarifa o tiempo es ilustrativo: consulta fuentes vigentes."]
+});
+
+/* --- Plantillas para los temas siguientes (agregar solo un bloque) ---
+MODULOS.push({ id:"dfi", titulo:"DFI", emoji:"🧾", intro:"", secciones:[], banco:[], ideas:[] });
+MODULOS.push({ id:"adu", titulo:"Aduanas (Decreto 1165 de 2019)", emoji:"🛃", ... });
+MODULOS.push({ id:"por", titulo:"Gestión portuaria", emoji:"⚓", ... });
+*/
+
+
+/* ============================================================
+   AMPLIACIÓN ACADÉMICA: módulos de operación y glosario
+   ============================================================ */
+const S = (titulo, html) => ({id: "extra-" + Math.random().toString(36).slice(2,10), titulo, html});
+function moduloExtra(id,titulo,emoji,intro,temas,ideas=[]){
+  MODULOS.push({id,titulo,emoji,intro,secciones:temas.map(([t,h])=>S(t,h)),banco:[],ideas:ideas.length?ideas:["Relaciona cada decisión operativa con el costo, el servicio al cliente, el riesgo y la información disponible."]});
+}
+const tabla = (headers, rows) => `<div class="tw"><table><thead><tr>${headers.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+
+moduloExtra("alm","Almacenamiento y centros de distribución","🏬","Diseño, operación y control de bodegas: desde la recepción hasta el despacho, con seguridad, productividad y trazabilidad.",
+[
+["1. Función estratégica del almacén",`<p>El almacenamiento protege el producto y sincroniza diferencias entre el ritmo de abastecimiento y el ritmo de consumo. Una bodega no debe evaluarse solo por cuánto espacio tiene: importa qué tan rápido, seguro y correctamente recibe, ubica, conserva, prepara y despacha los productos.</p><p>Un centro de distribución (CEDI) suele priorizar el flujo y la preparación de pedidos; una bodega de reserva puede enfocarse en conservar existencias por más tiempo. El diseño depende del volumen, variedad, rotación, dimensiones, peso, requisitos de conservación y nivel de servicio esperado.</p>`],
+["2. Zonas y flujo de operación",`<p>Las zonas habituales son muelles de recepción, inspección, cuarentena, almacenamiento, preparación de pedidos (picking), consolidación, empaque, despacho, devoluciones y áreas para equipos y personal. El flujo debe reducir recorridos, cruces peligrosos y manipulaciones innecesarias.</p><p>El diseño de flujo puede ser en U, en línea o en forma de L. No existe uno universalmente mejor: se elige según ubicación de muelles, restricciones del edificio y relación entre entradas y salidas.</p>`],
+["3. Sistemas de almacenamiento",tabla(["Sistema","Uso típico","Ventaja / precaución"],[
+["Estantería selectiva","Muchas referencias con acceso directo","Flexible; menor densidad que sistemas compactos"],
+["Doble profundidad","Volumen medio por referencia","Más densidad; requiere equipo compatible"],
+["Drive-in / drive-through","Muchas unidades de pocas referencias","Alta densidad; acceso menos selectivo"],
+["Dinámica por gravedad","Flujo FIFO en cajas o pallets","Reduce recorridos; requiere control del sistema"],
+["Cantilever","Tubos, perfiles y cargas largas","Brazos ajustables; exige cálculo de carga"],
+["Mezanine","Aprovechar altura disponible","Revisar estructura, evacuación y ergonomía"]])],
+["4. Recepción, ubicación y despacho",`<ol><li><strong>Recepción:</strong> validar cita, vehículo, documentos, cantidad, estado y lote.</li><li><strong>Inspección:</strong> identificar daños, diferencias o producto no conforme y ponerlo en cuarentena.</li><li><strong>Registro:</strong> actualizar el sistema antes de mover el producto a ubicación definitiva.</li><li><strong>Ubicación:</strong> asignar posición compatible con peso, dimensiones, rotación y condiciones de conservación.</li><li><strong>Preparación y despacho:</strong> confirmar referencia, lote, cantidad, empaque, etiqueta y documentos.</li></ol><p>El registro tardío genera inventario fantasma: el sistema muestra producto que físicamente está en otra ubicación o aún no está disponible.</p>`],
+["5. Slotting, picking y packing",`<p><strong>Slotting</strong> es asignar ubicaciones a las referencias. Los productos de alta rotación pueden ubicarse cerca de despacho, pero también se consideran peso, ergonomía, compatibilidad y seguridad. <strong>Picking</strong> es recolectar los artículos solicitados; <strong>packing</strong> es verificar, proteger, empacar y etiquetar el pedido.</p><p>Modalidades de picking: por pedido, por lote, por zonas y por oleadas. La mejor opción depende de líneas por pedido, tamaño de la operación, urgencia, distancia de recorrido y tecnología disponible.</p>`],
+["6. Capacidad, seguridad y productividad",`<p>La ocupación mide qué parte de la capacidad utilizable está ocupada. Una ocupación excesiva puede bloquear pasillos y aumentar errores; una demasiado baja puede indicar espacio sobredimensionado. Se deben separar capacidad teórica, capacidad operativa y espacio reservado para maniobra.</p><p>Indicadores recomendados: productividad de picking (líneas por hora), exactitud de preparación, tiempo de ciclo, daños por manipulación, ocupación, pedidos despachados a tiempo y accidentes o incidentes. Respetar señalización, capacidad de estanterías, inspecciones y circulación peatonal es prioritario.</p>`]
+],["La ubicación correcta reduce recorridos y errores.","La exactitud del inventario depende de registros oportunos y trazabilidad."]);
+
+moduloExtra("inv","Gestión y control de inventarios","📦","Decidir cuánto pedir, cuándo reponer y qué existencias mantener sin inmovilizar capital ni poner en riesgo el servicio.",
+[
+["1. Tipos y función del inventario",`<p>El inventario puede incluir materias primas, productos en proceso, producto terminado, repuestos, suministros y mercancía en tránsito. Cumple funciones de ciclo, seguridad, anticipación y desacoplamiento entre procesos. Tener inventario ayuda a atender variaciones, pero genera costos de capital, espacio, seguros, deterioro, obsolescencia y administración.</p>`],
+["2. Costos relevantes",tabla(["Costo","Qué incluye","Decisión afectada"],[
+["Ordenar","Gestión de compras, recepción y administración por pedido","Tamaño y frecuencia de pedido"],
+["Mantener","Capital, espacio, seguro, daño, vencimiento y obsolescencia","Nivel de inventario"],
+["Faltante","Venta perdida, parada, urgencia y pérdida de confianza","Stock de seguridad"],
+["Compra","Precio, descuentos, transporte y condiciones comerciales","Proveedor y lote económico"]])],
+["3. Clasificación ABC y XYZ",`<p>La clasificación <strong>ABC</strong> ordena referencias por valor anual de consumo: demanda anual en unidades multiplicada por costo unitario. A suele concentrar la mayor parte del valor y requiere control más frecuente; B tiene importancia intermedia; C agrupa muchas referencias de menor valor relativo. Los porcentajes de corte son convenciones de cada organización, no reglas universales.</p><p>La clasificación <strong>XYZ</strong> analiza la variabilidad de la demanda, a menudo mediante el coeficiente de variación (desviación estándar / promedio). X indica demanda relativamente estable, Y variabilidad media o tendencia estacional y Z alta irregularidad. Combinar ABC y XYZ ayuda a priorizar políticas diferenciadas.</p>`],
+["4. Punto de reorden y stock de seguridad",`<p>Si la demanda durante el plazo de reposición es predecible, el punto de reorden puede estimarse como demanda promedio por día multiplicada por el plazo de reposición. Se agrega stock de seguridad cuando la demanda o el plazo varían.</p><div class="caso"><h4>Ejemplo ilustrativo</h4><p>Una referencia vende 12 unidades al día y el proveedor tarda 5 días. Sin stock de seguridad, el punto de reorden es 12 × 5 = 60 unidades. Si la empresa decide mantener 20 unidades de seguridad, el punto de reorden será 80. La política debe revisarse con datos reales y nivel de servicio objetivo.</p></div>`],
+["5. EOQ o cantidad económica de pedido",`<p>El modelo EOQ busca equilibrar costo de ordenar y costo de mantener inventario bajo supuestos simplificados: demanda conocida y constante, plazo estable, reposición en lote y ausencia de faltantes. La fórmula clásica es \(Q^*=\\sqrt{2DS/H}\), donde D es demanda anual, S costo por pedido y H costo anual de mantener una unidad. No reemplaza el juicio operativo: mínimos del proveedor, capacidad, vencimiento y descuentos pueden cambiar la decisión.</p>`],
+["6. Conteos cíclicos y exactitud",`<p>El conteo cíclico verifica una parte del inventario de forma programada sin detener toda la operación. Las referencias A suelen contarse con mayor frecuencia que las C. La exactitud puede medirse como ubicaciones o referencias sin diferencia sobre el total contado, según una definición consistente.</p><p>Ante una diferencia, no basta con corregir el saldo: se investiga causa raíz, como recepción sin registrar, unidad de medida equivocada, picking duplicado, merma, error de ubicación o devolución no procesada.</p>`],
+["7. Obsolescencia, vencimientos y rotación",`<p>La rotación indica cuántas veces se renueva el inventario en un periodo: costo de ventas dividido por inventario promedio, cuando se trabaja en valor. Los días de inventario aproximados se calculan como días del periodo dividido por rotación. Una rotación alta no siempre es buena si produce faltantes; una baja puede ser necesaria para repuestos críticos, pero debe justificarse.</p><p>Para lotes con vencimiento se aplican FEFO (sale primero lo que vence primero); FIFO significa primero en entrar, primero en salir. Para productos sin vencimiento, FIFO puede ser apropiado, pero la política debe responder a las características del artículo.</p>`]
+],["ABC prioriza por valor; XYZ por variabilidad.","El punto de reorden combina consumo y plazo de reposición.","Los modelos son apoyo a la decisión, no sustitutos de datos confiables."]);
+
+moduloExtra("abast","Compras y gestión de proveedores","🧾","Cómo convertir necesidades operativas en compras oportunas, evaluando costo total, calidad, continuidad y riesgo de suministro.",
+[
+["1. Ciclo de abastecimiento",`<p>El proceso suele iniciar con la identificación de la necesidad y la requisición; continúa con búsqueda y homologación de proveedores, solicitud y comparación de cotizaciones, negociación, orden de compra, seguimiento, recepción, evaluación y pago. La separación de funciones y la trazabilidad reducen errores, fraude y compras no autorizadas.</p>`],
+["2. Selección y evaluación de proveedores",tabla(["Criterio","Preguntas de evaluación"],[
+["Calidad","¿Cumple especificaciones, lotes y certificaciones requeridas?"],
+["Entrega","¿Cumple fechas, cantidades y capacidad de respuesta?"],
+["Costo total","¿Qué costos adicionales hay por flete, inspección, empaque o fallas?"],
+["Riesgo","¿Depende de una sola planta, país, ruta o insumo?"],
+["Servicio","¿Responde a reclamos, urgencias y cambios de demanda?"],
+["Cumplimiento","¿Cumple requisitos legales, éticos, ambientales y de seguridad?"]])],
+["3. Costo total de adquisición (TCO)",`<p>El precio unitario no representa necesariamente el costo real. El costo total de adquisición considera precio, transporte, aranceles e impuestos no recuperables, seguros, inspección, almacenamiento, defectos, tiempos, costos financieros y disposición final. En importaciones debe evaluarse el costo puesto en bodega y los riesgos del proceso completo.</p>`],
+["4. Negociación y contratos",`<p>Antes de negociar se deben definir especificaciones, cantidades, calendario, tolerancias, Incoterm cuando aplique, condiciones de pago, garantías, penalidades, tratamiento de reclamos y responsabilidades documentales. La negociación sostenible busca continuidad y claridad, no solo el descuento inmediato.</p>`],
+["5. Riesgo y continuidad del suministro",`<p>Los riesgos incluyen concentración de proveedores, desastres, cierres de rutas, variación cambiaria, problemas de calidad, insolvencia y cambios regulatorios. Las respuestas pueden incluir proveedores alternos homologados, inventario estratégico, acuerdos de capacidad, seguimiento temprano y planes de contingencia. Diversificar sin evaluar el costo y la calidad puede añadir complejidad innecesaria.</p>`],
+["6. Indicadores de compras",`<p>Medir porcentaje de entregas completas y a tiempo del proveedor, tiempo de ciclo de compra, variación entre precio presupuestado y real, porcentaje de compras urgentes, tasa de rechazo y ahorro validado contra una línea base comparable. No debe reportarse como ahorro una reducción de precio que se pierde por mayor flete, defectos o inventario.</p>`]
+],["Evaluar el costo total, no solo el precio.","La homologación y el seguimiento permiten anticipar problemas."]);
+
+moduloExtra("dist","Distribución, pedidos y última milla","🚚","Gestión del pedido desde que entra hasta que se entrega, con planificación de rutas, consolidación y control del servicio.",
+[
+["1. Ciclo de pedido",`<p>El ciclo incluye captura del pedido, validación comercial y de crédito, disponibilidad, asignación de inventario, preparación, empaque, documentación, despacho, transporte, prueba de entrega y gestión de novedades. El tiempo total debe medirse desde un punto de inicio y cierre definidos.</p>`],
+["2. Diseño de red de distribución",`<p>Las decisiones clave son ubicación y cantidad de centros de distribución, zonas de cobertura, inventario por nodo, frecuencia de despacho y uso de operadores logísticos. Más centros pueden acercar el producto al cliente y reducir el tiempo de entrega, pero elevan inventario, instalaciones y complejidad.</p>`],
+["3. Consolidación y cross-docking",`<p>La consolidación agrupa envíos compatibles para mejorar utilización del vehículo. El <strong>cross-docking</strong> transfiere mercancía desde recepción a despacho con almacenamiento mínimo o nulo; exige coordinación de horarios, información fiable y compatibilidad entre entradas y pedidos.</p>`],
+["4. Ruteo y utilización de vehículos",`<p>Una ruta eficiente considera ventanas de entrega, capacidad por peso y volumen, tiempos de conducción, restricciones urbanas, prioridad, tráfico, costos y seguridad. La utilización no debe maximizarse a costa de incumplir ventanas o sobrecargar vehículos. La planificación requiere datos actualizados y gestión de excepciones.</p>`],
+["5. Última milla y experiencia del cliente",`<p>La última milla suele ser costosa por entregas dispersas, intentos fallidos, congestión y requisitos de coordinación. Alternativas: franjas horarias, puntos de recogida, notificaciones, consolidación por zonas, evidencia de entrega y comunicación rápida ante novedades. La promesa de entrega debe ser realista.</p>`],
+["6. Indicadores de distribución",tabla(["Indicador","Lectura"],[
+["OTIF","Pedidos entregados a tiempo y completos según promesa"],
+["Entrega a la primera","Entregas exitosas en el primer intento / total"],
+["Costo por entrega","Costo total de distribución / entregas realizadas"],
+["Utilización del vehículo","Carga usada respecto a capacidad válida"],
+["Tiempo de ciclo","Tiempo entre pedido confirmado y entrega"],
+["Daños y reclamos","Incidencias logísticas por entregas o unidades"]])]
+],["El pedido perfecto integra tiempo, cantidad, condición y documentación.","Las rutas deben optimizar costo y servicio, no solo kilómetros."]);
+
+moduloExtra("costos","Costos e indicadores logísticos","📊","Medir el desempeño con indicadores comparables y conectar las cifras operativas con decisiones de negocio.",
+[
+["1. Estructura de costos logísticos",`<p>Los costos pueden clasificarse por actividad (transporte, almacenamiento, inventario, pedidos, empaque, aduanas y devoluciones), comportamiento (fijos y variables), asignación (directos e indirectos) y etapa de la cadena. Una misma partida puede clasificarse de formas distintas según el propósito del análisis, siempre que se documente el criterio.</p>`],
+["2. Costo logístico total",`<p>El costo logístico total suma los costos relevantes del sistema para un periodo y alcance definidos. Reducir un componente puede aumentar otro: elegir transporte más lento y barato puede elevar inventario en tránsito; comprar lotes grandes reduce pedidos, pero aumenta capital y espacio. Las decisiones deben evaluarse con una perspectiva integral.</p>`],
+["3. Indicadores de servicio y calidad",tabla(["Indicador","Fórmula orientativa","Precaución"],[
+["OTIF","Pedidos a tiempo y completos / pedidos totales × 100","Definir la promesa y unidad de medición"],
+["Exactitud de inventario","Registros sin diferencia / registros contados × 100","No ocultar diferencias mediante ajustes"],
+["Fill rate","Unidades atendidas / unidades solicitadas × 100","Distinguir unidad y línea de pedido"],
+["Exactitud de pedido","Pedidos sin error / pedidos despachados × 100","Definir error de referencia, cantidad y etiqueta"],
+["Tasa de daño","Unidades dañadas / unidades manipuladas × 100","Registrar causa y etapa"]])],
+["4. Productividad y utilización",`<p>La productividad relaciona resultados con recursos: líneas preparadas por hora, toneladas movilizadas por turno o pedidos procesados por persona. La utilización mide cuánto de la capacidad disponible se usa. Alta productividad con más errores, accidentes o reclamos no constituye una mejora real.</p>`],
+["5. Tableros de control y metas",`<p>Un tablero útil presenta definición, fórmula, fuente, frecuencia, responsable, meta y acción cuando el indicador se desvía. Evita mezclar periodos o denominadores distintos. Conviene combinar indicadores de resultado (costo final, OTIF) con indicadores preventivos (pedidos atrasados, faltantes previstos, mantenimiento pendiente).</p>`],
+["6. Análisis de causa raíz y mejora continua",`<p>Para analizar una desviación se puede usar Pareto, diagrama causa-efecto, cinco porqués y ciclo PHVA (planear, hacer, verificar, actuar). Primero se valida la calidad de los datos, luego se identifica causa, se prueba una acción y se verifica si el resultado se mantiene.</p>`]
+],["Todo KPI debe tener fórmula, fuente, responsable y frecuencia.","No optimices un indicador aislado a costa del resultado total."]);
+
+moduloExtra("tecn","Tecnología y transformación digital logística","💻","Sistemas, automatización y datos que conectan inventarios, transporte, bodegas y socios de la cadena.",
+[
+["1. ERP, WMS, TMS y OMS",tabla(["Sistema","Función habitual"],[
+["ERP","Integra procesos administrativos, compras, ventas, finanzas e inventario"],
+["WMS","Gestiona ubicaciones, tareas, recepción, picking y despacho en bodega"],
+["TMS","Planifica transporte, cargas, rutas, tarifas y seguimiento"],
+["OMS","Orquesta pedidos de distintos canales y estados de cumplimiento"],
+["YMS","Administra citas, patio, muelles y movimientos de vehículos"],
+["BI / analítica","Convierte datos en reportes, alertas y análisis"]])],
+["2. Código de barras, RFID y trazabilidad",`<p>El código de barras identifica mediante lectura óptica; RFID usa radiofrecuencia y puede permitir lecturas sin línea de visión directa, según etiquetas y entorno. La trazabilidad conecta eventos de recepción, ubicación, lote, transformación, despacho y entrega. La tecnología solo funciona si los identificadores y procesos están estandarizados.</p>`],
+["3. IoT, sensores y cadena de frío",`<p>Los sensores pueden registrar temperatura, humedad, ubicación, golpes o apertura. En perecederos y productos sensibles, las alertas permiten actuar antes de que una desviación se convierta en pérdida. Deben validarse calibración, conectividad, reglas de alarma, almacenamiento de datos y respuesta operativa.</p>`],
+["4. Automatización y robótica",`<p>Las opciones incluyen transportadores, clasificadores, sorters, sistemas automáticos de almacenamiento y recuperación, robots móviles y asistencia al picking. La selección requiere análisis de volumen, estabilidad de la demanda, ergonomía, integración, mantenimiento, seguridad y retorno de inversión.</p>`],
+["5. Calidad de datos y ciberseguridad",`<p>Datos maestros incorrectos —unidades, dimensiones, códigos, pesos o direcciones— causan errores en compras, almacenaje, tarifas y despacho. Los controles básicos incluyen permisos por rol, copias de seguridad, actualización de equipos, autenticación robusta, capacitación contra fraude y planes de continuidad.</p>`],
+["6. Selección e implementación tecnológica",`<p>Antes de comprar una solución, documentar el problema, el proceso actual, volumen de transacciones, integraciones necesarias, costos de licencias y soporte, migración, capacitación y beneficios medibles. Hacer una prueba piloto y definir criterios de aceptación reduce el riesgo de una implementación costosa que no resuelva la causa original.</p>`]
+],["La tecnología apoya procesos bien diseñados; no corrige por sí sola los procesos deficientes."]);
+
+moduloExtra("inversa","Logística inversa, devoluciones y economía circular","♻️","Gestionar retornos, garantías, reparación, recuperación de materiales y disposición responsable.",
+[
+["1. Qué es la logística inversa",`<p>Es la planificación y control del flujo desde el cliente o punto de uso hacia recuperación, reparación, clasificación, reutilización, reciclaje o disposición. Puede originarse en devoluciones comerciales, garantías, embalajes retornables, retiro de producto, mantenimiento o fin de vida.</p>`],
+["2. Proceso de devolución",`<p>Un proceso robusto asigna autorización de devolución, identifica pedido y producto, registra motivo, recibe e inspecciona, clasifica condición, decide destino y cierra el reembolso o reemplazo. Sin códigos de motivo, la empresa pierde información para corregir causas recurrentes.</p>`],
+["3. Decisión de recuperación",tabla(["Destino","Cuándo puede aplicar"],[
+["Reintegrar a inventario","Producto sin uso, completo y conforme"],
+["Reacondicionar o reparar","Producto recuperable con costo razonable"],
+["Reutilizar componentes","Piezas útiles bajo control técnico"],
+["Reciclar","Material recuperable con canal adecuado"],
+["Disposición final","Producto no recuperable, conforme a requisitos aplicables"]])],
+["4. Envases y embalajes retornables",`<p>Estibas, canastillas, contenedores y embalajes reutilizables requieren identificación, registro de entrega, control de pérdidas, limpieza, inspección y circuito de retorno. El costo de retorno debe compararse con compra de embalaje desechable, almacenamiento y manejo.</p>`],
+["5. Indicadores de logística inversa",`<p>Medir tasa de devolución, costo por devolución, tiempo de resolución, porcentaje recuperado, causas por referencia y porcentaje de producto que vuelve a venderse. Una tasa alta puede reflejar fallas de calidad, descripción comercial inexacta, empaque inadecuado o errores de preparación.</p>`]
+],["La devolución es también una fuente de información para prevenir errores futuros."]);
+
+moduloExtra("produ","Producción, planificación y operaciones","⚙️","Cómo sincronizar capacidad, materiales, tiempos y calidad para producir lo necesario sin desperdicio.",
+[
+["1. Planificación de demanda y S&OP",`<p>El proceso de ventas y operaciones (S&OP) alinea pronósticos comerciales, capacidad, compras, inventario y finanzas en un plan común. No es solo una reunión de ventas: resuelve diferencias entre lo que el mercado solicita y lo que la organización puede suministrar.</p>`],
+["2. MRP y necesidades de materiales",`<p>La planificación de requerimientos de materiales (MRP) calcula qué componentes se necesitan y cuándo, usando el plan de producción, la lista de materiales, inventario disponible y plazos. Los resultados dependen de datos correctos sobre cantidades, desperdicio, inventario y lead time.</p>`],
+["3. Capacidad, cuello de botella y programación",`<p>La capacidad debe analizarse por proceso, turno, equipo y habilidad disponible. El cuello de botella limita el flujo global; aumentar producción en etapas no restrictivas puede crear inventario en proceso sin elevar la producción final. La programación secuencia órdenes según prioridades, disponibilidad, preparación de máquina y fechas de entrega.</p>`],
+["4. Lean y desperdicios",`<p>Lean busca maximizar valor para el cliente y reducir actividades que consumen recursos sin aportar valor. Se suelen estudiar sobreproducción, espera, transporte innecesario, sobreprocesamiento, inventario excesivo, movimiento, defectos y desaprovechamiento del talento. La mejora se valida con resultados, no solo con reducción de personal o velocidad.</p>`],
+["5. Calidad y mantenimiento",`<p>La calidad en origen evita que defectos avancen por la cadena. El mantenimiento preventivo se programa por tiempo o uso; el predictivo utiliza señales de condición; el correctivo responde a fallas. La estrategia debe equilibrar costo, criticidad del equipo y consecuencias de parada.</p>`]
+],["El flujo total depende del cuello de botella, no de la velocidad de cada estación aislada."]);
+
+moduloExtra("riesgos","Gestión de riesgos, continuidad y seguridad","🛡️","Identificar interrupciones, proteger personas y mercancías y mantener operaciones críticas durante una contingencia.",
+[
+["1. Mapa de riesgos logísticos",`<p>Registrar evento, causa, probabilidad, impacto, controles existentes, responsable y plan de tratamiento. Entre los riesgos están cierres viales, eventos climáticos, robo, contaminación de carga, falla tecnológica, pérdida de proveedor, error documental, incendio y ruptura de cadena de frío.</p>`],
+["2. Continuidad del negocio",`<p>Definir procesos críticos, tiempos máximos tolerables de interrupción, recursos alternos, contactos, inventarios estratégicos y protocolos de comunicación. Los planes deben probarse con simulacros y actualizarse después de incidentes o cambios de operación.</p>`],
+["3. Seguridad de carga y personas",`<p>La prevención combina evaluación de rutas y zonas, control de acceso, inspección de vehículos y unidades de carga, sellos, seguimiento, capacitación y reporte de anomalías. En bodega, las prioridades incluyen circulación segregada, equipos autorizados, cargas estables, elementos de protección y manejo de sustancias según sus requisitos.</p>`],
+["4. Carga peligrosa y mercancía especial",`<p>La clasificación, embalaje, marcado, documentación, segregación y respuesta a emergencias dependen del tipo de mercancía y del modo de transporte. No se deben usar instrucciones genéricas para sustituir la regulación aplicable, fichas de seguridad o personal competente.</p>`],
+["5. Seguros y gestión de reclamaciones",`<p>Revisar qué riesgos cubre la póliza, límites, deducibles, exclusiones, requisitos de embalaje, plazos de notificación y evidencia necesaria. En caso de daño o faltante, conservar documentos, fotografías, registros de temperatura o sellos y constancias de entrega, y notificar a las partes según el contrato.</p>`]
+],["El riesgo se gestiona antes del incidente y se aprende después de cada evento."]);
+
+moduloExtra("dfi","Distribución física internacional (DFI)","🌍","Planear el movimiento internacional de mercancías con costos, documentos, modos, seguros y actores coordinados.",
+[
+["1. Componentes de una operación internacional",`<p>Una operación puede incluir transporte interno, terminal de origen, agente de carga, naviera o aerolínea, seguro, despacho aduanero, flete internacional, terminal de destino, inspecciones, tributos y transporte final. La ruta física y la ruta documental deben estar coordinadas.</p>`],
+["2. Actores y responsabilidades",`<p>Exportador e importador negocian la compraventa; el agente de carga coordina transporte; el transportista ejecuta un tramo; el agente de aduanas, cuando interviene, apoya el trámite conforme al marco aplicable; terminales y autoridades realizan funciones específicas. El alcance exacto depende del contrato, el país y la operación.</p>`],
+["3. Componentes del costo puesto en destino",`<p>El cálculo debe contemplar precio de compra, empaque, transporte interno, gastos de origen, flete internacional, seguro, gastos de destino, tributos, inspecciones, almacenamiento, demoras, intermediación y transporte final. Distinguir costos incluidos en el precio de aquellos facturados aparte evita duplicarlos u omitirlos.</p>`],
+["4. Carga, embalaje y cubicaje",`<p>La unidad de carga, el peso bruto, el peso neto, el volumen y las dimensiones influyen en la tarifa y en la seguridad. La carga debe protegerse frente a vibración, humedad, compresión y manipulación. La estiba y distribución de peso deben respetar límites de contenedor, vehículo y modo de transporte.</p>`],
+["5. Seguro y gestión documental",`<p>El seguro de transporte debe revisarse por trayecto, valor asegurado, cobertura, deducible y exclusiones. La documentación debe ser coherente en descripción, cantidades, pesos, consignatario, origen y referencias. Diferencias entre factura, lista de empaque, documento de transporte y declaración pueden generar retenciones y costos.</p>`],
+["6. Incoterms y negociación internacional",`<p>Los Incoterms asignan obligaciones, costos y transferencia de riesgo entre comprador y vendedor; no sustituyen el contrato de compraventa ni determinan por sí solos la propiedad o la forma de pago. Debe indicarse la regla, el lugar o puerto nombrado y la versión, por ejemplo, “FCA [lugar nombrado], Incoterms® 2020”. Verificar siempre la regla adecuada al modo de transporte.</p>`]
+],["La DFI exige coordinar el flujo físico, documental y financiero."]);
+
+moduloExtra("adu","Aduanas y cumplimiento en Colombia","🛃","Conceptos introductorios para comprender el proceso aduanero colombiano y la importancia de la documentación y los controles.",
+[
+["1. Preparación de la operación",`<p>Antes de importar o exportar se identifica la mercancía, su clasificación arancelaria, origen, valor, restricciones, vistos buenos, requisitos técnicos y documentos exigibles. Una descripción comercial vaga puede dificultar la clasificación y la determinación de requisitos.</p>`],
+["2. Clasificación arancelaria y origen",`<p>La clasificación arancelaria ubica la mercancía en la nomenclatura aplicable y permite determinar tributos y medidas de control. El origen aduanero es distinto del país desde el que se despacha y puede ser relevante para preferencias comerciales. Ambos análisis requieren información técnica completa y consulta de reglas vigentes.</p>`],
+["3. Valoración y tributos",`<p>La valoración aduanera determina la base de valor conforme a las reglas aplicables; no debe confundirse automáticamente con el precio de factura. Los tributos y requisitos dependen de la subpartida, origen, régimen y normativa vigente. Los ejemplos académicos deben verificarse con fuentes oficiales antes de aplicarse a una operación real.</p>`],
+["4. Documentos y consistencia",`<p>Según la operación, pueden intervenir factura comercial, lista de empaque, documento de transporte, certificado de origen, registros, licencias, vistos buenos y declaración aduanera. Las cantidades, unidades, pesos, valores, descripciones y participantes deben ser consistentes entre documentos.</p>`],
+["5. Inspección, levante y archivo",`<p>La autoridad puede realizar controles documentales o físicos de acuerdo con el procedimiento aplicable. El levante no elimina la necesidad de conservar soportes ni impide toda actuación posterior. Los plazos, causales y procedimientos dependen de la norma vigente y de las circunstancias del caso.</p>`],
+["6. Cumplimiento y actualización normativa",`<p>La normativa aduanera cambia y puede incluir decretos, resoluciones, conceptos y procedimientos operativos. Antes de tomar decisiones se debe consultar DIAN y las normas vigentes; este módulo es académico y no sustituye asesoría específica ni la revisión del texto oficial.</p>`]
+],["Validar requisitos antes de embarcar suele costar menos que corregir un error en destino."]);
+
+moduloExtra("port","Gestión portuaria y operaciones de terminal","⚓","Comprender cómo se coordinan buques, patios, contenedores, equipos, documentos y actores portuarios.",
+[
+["1. Función del puerto y la terminal",`<p>El puerto conecta transporte marítimo con redes terrestres y servicios logísticos. La terminal organiza atraque, transferencia de carga, almacenamiento temporal, inspección, entrega y recepción según su especialidad y capacidad.</p>`],
+["2. Flujo de un contenedor de exportación",`<p>La carga se reserva y prepara, se coordina el transporte terrestre, se ingresa a terminal dentro de la ventana establecida, se verifica la documentación y el estado de la unidad, se ubica en patio y se planifica para embarque. Los cortes documentales y operativos deben cumplirse para evitar que la carga quede fuera del buque.</p>`],
+["3. Operación de importación",`<p>Tras la descarga, el contenedor se ubica en patio y se gestionan liberaciones documentales, pagos, inspecciones y coordinación del retiro. La disponibilidad física no significa necesariamente que esté liberado para entrega. La demora puede generar costos de almacenamiento, uso de equipo o transporte fallido.</p>`],
+["4. Patio, muelles y equipos",`<p>La gestión de patio considera ubicación, apilamiento, accesibilidad, segregación, peso, tipo de contenedor y secuencia de salida. Grúas pórtico, RTG/RMG, reach stackers, tractores de terminal y equipos de inspección cumplen funciones distintas. La seguridad operacional y los límites del equipo prevalecen sobre la velocidad.</p>`],
+["5. Indicadores portuarios",`<p>Indicadores posibles: productividad de grúa, tiempo de permanencia de contenedor, ocupación del patio, cumplimiento de ventanas, tiempo de camión en terminal, movimientos improductivos y daños. Las comparaciones requieren definir alcance, tipo de carga, periodo y condiciones operativas.</p>`]
+],["La coordinación documental y de citas reduce tiempos de espera y costos por demora."]);
+
+const GLOSARIO = [
+["ABC","Clasificación de inventario por valor anual de consumo; prioriza los artículos de mayor impacto económico."],
+["Abastecimiento","Proceso de asegurar bienes y servicios necesarios para la operación."],
+["Alistamiento / picking","Recolección de los productos y cantidades que componen un pedido."],
+["Almacenamiento","Custodia temporal de mercancías bajo condiciones definidas."],
+["ASN","Aviso anticipado de despacho; informa qué mercancía llegará y cuándo."],
+["AWB","Air Waybill o guía aérea, documento del contrato de transporte aéreo."],
+["Backorder","Pedido pendiente por falta temporal de disponibilidad."],
+["Balanza de inventario","Comparación entre saldo físico y saldo registrado en el sistema."],
+["Bill of Lading (B/L)","Conocimiento de embarque marítimo; evidencia recepción y contrato de transporte, con efectos según su tipo."],
+["BOM","Bill of Materials o lista de materiales necesarios para fabricar un producto."],
+["Bullwhip effect","Efecto látigo: la variabilidad de pedidos se amplifica a medida que se avanza hacia proveedores."],
+["Cadena de frío","Control continuo de temperatura para conservar productos sensibles."],
+["Cadena de suministro","Red de organizaciones, procesos, recursos e información que lleva un producto desde origen hasta cliente y retorno."],
+["Carga consolidada","Agrupación de mercancías de varios remitentes para aprovechar capacidad de transporte."],
+["CEDI","Centro de distribución que recibe, almacena, prepara y despacha pedidos."],
+["Ciclo de pedido","Tiempo y actividades desde la recepción de un pedido hasta su entrega."],
+["Cross-docking","Transferencia rápida de mercancía entre recepción y despacho con almacenamiento mínimo."],
+["Cubicaje","Cálculo del volumen ocupado por una carga a partir de sus dimensiones."],
+["Demanda independiente","Demanda de un artículo determinada por el mercado, no por la demanda de otro producto."],
+["Demanda dependiente","Demanda derivada de un plan de producción o de la estructura de materiales."],
+["Despacho","Proceso de preparar documentación y liberar mercancía para su salida."],
+["Días de inventario","Estimación de cuántos días puede cubrir el inventario promedio al ritmo de consumo o venta."],
+["Distribución física internacional (DFI)","Planeación del movimiento internacional, incluyendo transporte, documentación, seguro y costos."],
+["EOQ","Cantidad económica de pedido; equilibra costos de ordenar y mantener bajo ciertos supuestos."],
+["ERP","Sistema integrado para administrar procesos y datos empresariales."],
+["FEFO","First Expired, First Out: sale primero el producto con vencimiento más cercano."],
+["FIFO / PEPS","First In, First Out / primero en entrar, primero en salir."],
+["Fill rate","Proporción de unidades o demanda atendida respecto a lo solicitado; debe especificarse la unidad."],
+["FCL","Full Container Load: modalidad de envío en contenedor completo."],
+["Flete","Precio del servicio de transporte de la carga."],
+["Fulfillment","Conjunto de actividades para procesar, preparar y entregar pedidos."],
+["Inventario de ciclo","Existencias que cubren la demanda entre reposiciones."],
+["Inventario de seguridad","Existencias adicionales para amortiguar incertidumbre en demanda o reposición."],
+["Inventario en tránsito","Mercancía que se encuentra entre dos puntos logísticos."],
+["JIT","Just in Time: abastecer o producir en el momento requerido, reduciendo inventario sin perder continuidad."],
+["KPI","Indicador clave de desempeño usado para evaluar resultados frente a objetivos."],
+["Lead time","Tiempo transcurrido entre el inicio y el final de un proceso, según definición acordada."],
+["Layout","Distribución física de áreas, equipos, pasillos y estaciones."],
+["Logística","Planeación, ejecución y control de flujos y almacenamiento para satisfacer requerimientos del cliente."],
+["Logística inversa","Gestión del retorno de productos, envases o materiales para recuperación o disposición."],
+["LCL","Less than Container Load: carga que comparte contenedor con otros embarcadores."],
+["Lote","Cantidad de producto tratada como unidad para producción, almacenamiento o trazabilidad."],
+["Manifiesto de carga","Documento o registro que relaciona la carga transportada según el régimen aplicable."],
+["Matriz de riesgos","Herramienta para valorar eventos por probabilidad, impacto y controles."],
+["MRP","Material Requirements Planning: cálculo de necesidades y fechas de materiales para producción."],
+["Nivel de servicio","Grado en que la operación cumple disponibilidad, tiempo, cantidad y condiciones prometidas."],
+["OTIF","On Time In Full: pedidos entregados a tiempo y completos según la promesa acordada."],
+["Pallet / estiba","Plataforma que facilita agrupar, manipular y transportar unidades de carga."],
+["Packing list","Lista de empaque con detalle de bultos, pesos, dimensiones y contenido."],
+["Punto de reorden","Nivel de inventario que activa una reposición considerando demanda y plazo."],
+["Racks","Estructuras de estantería destinadas a almacenar mercancía."],
+["RFID","Identificación por radiofrecuencia mediante etiquetas y lectores compatibles."],
+["Rotación de inventario","Relación entre consumo o costo de ventas y el inventario promedio en un periodo."],
+["Slotting","Asignación planificada de ubicaciones a productos dentro del almacén."],
+["SKU","Stock Keeping Unit: código interno que identifica una referencia de inventario."],
+["Stockout","Agotamiento o falta de disponibilidad de una referencia cuando se necesita."],
+["TCO","Total Cost of Ownership: costo total de adquirir, operar y mantener una solución o suministro."],
+["TMS","Transportation Management System: sistema para planificar y controlar transporte."],
+["Trazabilidad","Capacidad de reconstruir el historial, ubicación y movimientos de un producto."],
+["Unidad de carga","Agrupación manipulable de mercancía, como pallet, contenedor o caja unitarizada."],
+["VMI","Vendor Managed Inventory: el proveedor participa en la reposición usando datos acordados."],
+["WMS","Warehouse Management System: sistema de gestión de operaciones y ubicaciones de bodega."],
+["XYZ","Clasificación de referencias según variabilidad o previsibilidad de demanda."],
+["Zona de picking","Área donde se ubican productos destinados a preparación frecuente de pedidos."]
+];
+MODULOS.push({
+ id:"glos",titulo:"Glosario logístico",emoji:"📚",
+ intro:"Diccionario de consulta rápida con conceptos esenciales de almacenamiento, inventarios, transporte, compras, distribución, comercio exterior y tecnología. Usa el buscador para encontrar términos o definiciones.",
+ secciones:[{id:"glos-busqueda",titulo:"Buscar conceptos",html:`<label for="buscar-glosario"><strong>Buscar término o palabra:</strong></label><input id="buscar-glosario" type="search" placeholder="Ej. OTIF, inventario, picking..." style="width:100%;padding:.7rem;border:1px solid #7b8794;border-radius:8px;font:inherit;margin:.5rem 0"><p class="nota" id="glos-contador" aria-live="polite"></p><div id="glos-lista" class="glos-grid"></div>`}],
+ banco:[],ideas:["Consulta el glosario antes de desarrollar ejercicios y casos.","Los términos pueden variar entre empresas: acuerda definiciones operativas antes de medir indicadores."]
+});
+
+/* ============================================================
+   RENDERIZADO DE PESTAÑAS
+   ============================================================ */
+let activa = 0;
+const EVAL_ID = "eval";
+function renderPestanas(){
+  const nav = $("#tabs"), main = $("#main"); nav.innerHTML = ""; main.innerHTML = "";
+  const todas = MODULOS.concat([{ id: EVAL_ID, titulo: "Evaluación", emoji: "📝" }]);
+  todas.forEach((m, i) => {
+    const b = el("button"); b.setAttribute("role", "tab"); b.id = "tab-" + m.id; b.setAttribute("aria-controls", "pan-" + m.id);
+    b.setAttribute("aria-selected", "false"); b.tabIndex = -1; b.innerHTML = m.emoji + " " + m.titulo + (m.id !== EVAL_ID ? ' <small id="bd-' + m.id + '"></small>' : "");
+    b.addEventListener("click", () => activar(i));
+    nav.appendChild(b);
+    const p = el("section"); p.setAttribute("role", "tabpanel"); p.id = "pan-" + m.id; p.setAttribute("aria-labelledby", "tab-" + m.id); p.hidden = true; p.tabIndex = 0;
+    if(m.id === EVAL_ID) p.innerHTML = `<h2>📝 Evaluación</h2><p class="intro">La evaluación se habilita en la Fase 3: incluirá la opción de Google Forms y la evaluación interna con protecciones.</p>`;
+    else renderModulo(m, p);
+    main.appendChild(p);
+  });
+  nav.addEventListener("keydown", e => {
+    const n = todas.length; let i = activa;
+    if(e.key === "ArrowRight") i = (activa + 1) % n; else if(e.key === "ArrowLeft") i = (activa - 1 + n) % n;
+    else if(e.key === "Home") i = 0; else if(e.key === "End") i = n - 1; else return;
+    e.preventDefault(); activar(i); $$("[role=tab]")[i].focus();
+  });
+  activar(0, true); aplicarBloqueo(); actualizarInsignias();
+  const glosInput = $("#buscar-glosario");
+  if(glosInput){
+    const pintarGlosario = () => {
+      const q = glosInput.value.trim().toLocaleLowerCase("es");
+      const lista = $("#glos-lista");
+      const filtrados = GLOSARIO.filter(([t,d]) => (t+" "+d).toLocaleLowerCase("es").includes(q));
+      lista.innerHTML = filtrados.map(([t,d]) => `<article class="glos-item"><strong>${t}</strong><span>${d}</span></article>`).join("");
+      $("#glos-contador").textContent = `${filtrados.length} de ${GLOSARIO.length} términos`;
+    };
+    glosInput.addEventListener("input", pintarGlosario); pintarGlosario();
+  }
+}
+function activar(i, silencioso){
+  const todas = $$("[role=tab]"); activa = i;
+  todas.forEach((t, k) => { const on = k === i; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; $("#" + t.getAttribute("aria-controls")).hidden = !on; });
+  if(!silencioso) window.scrollTo({ top: 0 });
+  actualizarBarra();
+}
+function renderModulo(m, p){
+  m.n = MODULOS.indexOf(m) + 1;
+  p.appendChild(el("h2", "", m.emoji + " " + m.n + ". " + m.titulo));
+  p.appendChild(el("p", "intro", m.intro));
+  m.secciones.forEach((s, i) => {
+    const sec = el("section", "sec", `<h3>${m.n}.${i + 1} ${s.titulo}</h3>${s.html}`); sec.id = s.id; sec.dataset.mod = m.id;
+    p.appendChild(sec);
+    if((i + 1) % QUIZ_CADA_N_SECCIONES === 0){ const k = (i + 1) / QUIZ_CADA_N_SECCIONES - 1; if(m.banco[k]) p.appendChild(crearQuiz(m, k)); }
+  });
+  p.appendChild(el("div", "ideas", "<h3>Ideas clave</h3><ul>" + m.ideas.slice(0, 6).map(x => "<li>" + x + "</li>").join("") + "</ul>"));
+  if(m.notas) p.appendChild(el("div", "notas", "<h3>Notas de verificación</h3><ul>" + m.notas.map(x => "<li>" + x + "</li>").join("") + "</ul>"));
+}
+
+/* ============================================================
+   MINI QUIZZES
+   ============================================================ */
+const practica = {}; // quizzes reintentados (sin puntos adicionales)
+function crearQuiz(m, k){
+  const id = m.id + "-q" + (k + 1), preg = m.banco[k], box = el("div", "quiz"); box.dataset.q = id;
+  function pinta(){
+    box.innerHTML = ""; const reg = prog.quizzes[id];
+    if(reg && reg.hecho && !practica[id]){
+      box.innerHTML = `<h4>Mini quiz ${k + 1} completado</h4><p>Aciertos al primer intento: ${reg.aciertos}/${reg.total}. Puntos: ${reg.pts}.</p>`;
+      const b = el("button", "btn sec2", "Reintentar (práctica, sin puntos adicionales)"); b.setAttribute("aria-label", "Reintentar mini quiz " + (k + 1));
+      b.onclick = () => { practica[id] = true; pinta(); }; box.appendChild(b); return;
+    }
+    box.appendChild(el("h4", "", "Mini quiz " + (k + 1) + (practica[id] ? " (práctica)" : "") + " — comprueba lo que leíste"));
+    const ses = preg.map(() => ({ n: 0, ok: false, pts: 0 })); let resueltas = 0;
+    preg.forEach((q, qi) => {
+      const fs = el("fieldset", "q"); fs.appendChild(el("legend", "", (qi + 1) + ". " + q.p)); const fb = el("div", "fb"); fb.setAttribute("aria-live", "polite");
+      q.o.forEach((t, oi) => {
+        const b = el("button", "opc", t); b.type = "button";
+        b.onclick = () => {
+          const s = ses[qi]; if(s.ok) return; s.n++;
+          if(oi === q.c){ s.ok = true; s.pts = s.n === 1 ? PUNTOS_1ER_INTENTO : s.n === 2 ? PUNTOS_2DO_INTENTO : 0; b.classList.add("ok"); $$(".opc", fs).forEach(x => x.disabled = true);
+            fb.style.color = "var(--verde-tx)"; fb.textContent = "Correcto" + (practica[id] ? "" : " (+" + s.pts + " pts). ") + " " + q.e; resueltas++; if(resueltas === preg.length) finalizar(); }
+          else { b.classList.add("mal"); b.disabled = true; fb.style.color = "var(--rojo-tx)"; fb.textContent = "Todavía no. " + q.e + " Intenta de nuevo."; }
+        };
+        fs.appendChild(b);
+      });
+      fs.appendChild(fb); box.appendChild(fs);
+    });
+    function finalizar(){
+      if(practica[id]){ delete practica[id]; box.appendChild(el("p", "fb", "Práctica completada.")); setTimeout(pinta, 1500); return; }
+      const aciertos = ses.filter(s => s.pts === PUNTOS_1ER_INTENTO).length, pts = ses.reduce((a, s) => a + s.pts, 0), intento = Math.max(...ses.map(s => s.n));
+      prog.quizzes[id] = { hecho: true, pestana: m.id, aciertos, total: preg.length, intento, pts }; guardarProg();
+      encolar("quiz", { pestana: m.titulo, quiz_id: id, aciertos, total: preg.length, intento });
+      programarProgreso(m.id); aplicarBloqueo(); actualizarInsignias(); setTimeout(pinta, 1200);
+    }
+  }
+  pinta(); return box;
+}
+/** Si BLOQUEAR_AVANCE_SIN_QUIZ es true, oculta el contenido posterior a un mini quiz sin resolver */
+function aplicarBloqueo(){
+  $$("[role=tabpanel]").forEach(p => { let bl = false;
+    $$(".sec,.quiz,.ideas", p).forEach(x => { x.classList.toggle("bloq", BLOQUEAR_AVANCE_SIN_QUIZ && bl);
+      if(x.classList.contains("quiz")){ const r = prog.quizzes[x.dataset.q]; if(!(r && r.hecho)) bl = true; } }); });
+}
+
+/* ============================================================
+   CÁLCULO DE PUNTAJE Y PORCENTAJES
+   ============================================================ */
+const modsContenido = () => MODULOS;
+function pctModulo(m){ const n = m.secciones.length; return n ? Math.round(100 * m.secciones.filter(s => prog.leidas[s.id]).length / n) : 0; }
+function pctTotal(){ let t = 0, l = 0; MODULOS.forEach(m => { t += m.secciones.length; l += m.secciones.filter(s => prog.leidas[s.id]).length; }); return t ? Math.round(100 * l / t) : 0; }
+function resumenQuizzes(){ const q = Object.values(prog.quizzes).filter(x => x.hecho); return { respondidos: q.length, aciertos: q.reduce((a, x) => a + x.aciertos, 0), total: q.reduce((a, x) => a + x.total, 0), puntaje: q.reduce((a, x) => a + x.pts, 0) }; }
+function actualizarInsignias(){ MODULOS.forEach(m => { const b = $("#bd-" + m.id); if(b) b.textContent = est ? pctModulo(m) + "%" : ""; }); }
+
+/* ============================================================
+   EVENTOS DE PROGRESO (agrupados)
+   ============================================================ */
+const pendientes = new Set(); let tProg = null;
+function programarProgreso(modId, inmediato){
+  pendientes.add(modId); clearTimeout(tProg);
+  tProg = setTimeout(enviarProgreso, inmediato ? 0 : AGRUPAR_PROGRESO_MS);
+}
+function enviarProgreso(){
+  if(!est) return; const r = resumenQuizzes();
+  pendientes.forEach(id => { const m = MODULOS.find(x => x.id === id); if(m) encolar("progreso", { pestana: m.titulo, porcentaje_leido: pctModulo(m), quizzes_respondidos: r.respondidos, aciertos: r.aciertos, puntaje_acumulado: r.puntaje }); });
+  pendientes.clear();
+}
+
+/* ============================================================
+   SEGUIMIENTO DE LECTURA (IntersectionObserver + tiempo mínimo)
+   ============================================================ */
+const visibles = new Set(), acum = {};
+function iniciarLectura(){
+  const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? visibles.add(e.target.id) : visibles.delete(e.target.id)), { threshold: 0.2 });
+  $$(".sec").forEach(s => io.observe(s));
+  setInterval(() => {
+    if(!est || document.visibilityState !== "visible" || !document.hasFocus()) return;
+    visibles.forEach(id => { const s = $("#" + id); if(!s || s.offsetParent === null || prog.leidas[id]) return;
+      acum[id] = (acum[id] || 0) + 1; if(acum[id] >= MIN_SEG_LECTURA) marcarLeida(s.id, s.dataset.mod); });
+  }, 1000);
+}
+function marcarLeida(secId, modId){
+  prog.leidas[secId] = 1; guardarProg(); actualizarInsignias();
+  const m = MODULOS.find(x => x.id === modId); programarProgreso(modId, m && pctModulo(m) === 100);
+}
+
+/* ============================================================
+   VIGILANCIA SILENCIOSA EN LECTURA (sin advertencias ni bloqueos)
+   ============================================================ */
+let salioEn = null;
+function marcarSalida(){ if(salioEn === null) salioEn = Date.now(); }
+function marcarRegreso(){
+  if(salioEn === null) return; const seg = Math.round((Date.now() - salioEn) / 1000); salioEn = null;
+  if(window.EVAL_ACTIVA || !est || seg < SEGUNDOS_MIN_SALIDA_LECTURA) return;
+  const m = $$("[role=tab]")[activa]; encolar("salida_lectura", { pestana: m ? m.textContent.replace(/\s*\d+%$/, "").trim() : "", segundos_fuera: seg });
+}
+document.addEventListener("visibilitychange", () => document.visibilityState === "hidden" ? marcarSalida() : marcarRegreso());
+window.addEventListener("blur", marcarSalida); window.addEventListener("focus", marcarRegreso);
+
+/* ============================================================
+   BARRA DE PROGRESO, VOLVER ARRIBA
+   ============================================================ */
+function actualizarBarra(){
+  const h = document.documentElement.scrollHeight - innerHeight; $("#prog").style.width = (h > 0 ? 100 * scrollY / h : 0) + "%";
+  $("#arriba").style.display = scrollY > 400 ? "block" : "none";
+}
+addEventListener("scroll", actualizarBarra, { passive: true });
+$("#arriba").onclick = () => window.scrollTo({ top: 0 });
+
+/* ============================================================
+   INSCRIPCIÓN
+   ============================================================ */
+function abrirInscripcion(){ $("#insc").classList.add("on"); $("#main").inert = true; $("header.top").inert = true; $("#fab").inert = true; setTimeout(() => $("#i-nom").focus(), 50); }
+function cerrarInscripcion(){ $("#insc").classList.remove("on"); $("#main").inert = false; $("header.top").inert = false; $("#fab").inert = false; }
+$("#f-insc").addEventListener("submit", e => {
+  e.preventDefault(); const v = id => $("#" + id).value.trim(); let ok = true;
+  const err = (id, t) => { $("#e-" + id).textContent = t; if(t) ok = false; };
+  err("nom", validarNombre(v("i-nom")) ? "" : "Escribe tu nombre completo (nombre y apellido).");
+  err("doc", validarDocumento(v("i-doc")) ? "" : "Solo dígitos, entre 5 y 15.");
+  err("fic", v("i-fic") ? "" : "Indica tu ficha o grupo.");
+  err("cor", !v("i-cor") || validarCorreo(v("i-cor")) ? "" : "El correo no tiene un formato válido.");
+  err("ley", $("#i-ley").checked ? "" : "Debes aceptar el tratamiento de datos para continuar.");
+  if(!ok) return;
+  est = { nombre: v("i-nom"), documento: v("i-doc"), ficha: v("i-fic"), correo: v("i-cor") };
+  LS.set("lsm_est", JSON.stringify(est)); cargarProg(); cerrarInscripcion();
+  encolar("registro", { correo: est.correo }); renderPestanas();
+});
+
+/* ============================================================
+   PANEL "MI AVANCE"
+   ============================================================ */
+let focoPrevio = null;
+function abrirAvance(){
+  if(!est) return; focoPrevio = document.activeElement; const r = resumenQuizzes();
+  const barra = p => `<div class="barra" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p}%"></i></div>`;
+  $("#av-body").innerHTML = `<p><strong>${est.nombre}</strong><br><span class="nota">Doc. ${est.documento} · Ficha ${est.ficha}</span></p>
+    <p>Avance total: <strong>${pctTotal()}%</strong></p>${barra(pctTotal())}
+    ${MODULOS.map(m => `<p>${m.emoji} ${m.titulo}: ${pctModulo(m)}%</p>${barra(pctModulo(m))}`).join("")}
+    <p>Mini quizzes respondidos: <strong>${r.respondidos}</strong><br>Aciertos al primer intento: <strong>${r.aciertos}/${r.total}</strong><br>Puntaje acumulado: <strong>${r.puntaje}</strong></p>
+    <p>Evaluación: ${prog.evaluacion ? "<strong>" + prog.evaluacion.correctas + "/" + prog.evaluacion.total + " (" + prog.evaluacion.porcentaje + "%)</strong>" : "aún sin resultado"}</p>`;
+  $("#avance").classList.add("on"); $("#avance").setAttribute("aria-hidden", "false"); $("#av-cerrar").focus();
+}
+function cerrarAvance(){
+  $("#avance").classList.remove("on"); $("#avance").setAttribute("aria-hidden", "true");
+  MODULOS.forEach(m => pendientes.add(m.id)); clearTimeout(tProg); enviarProgreso(); if(focoPrevio) focoPrevio.focus();
+}
+$("#fab").onclick = abrirAvance; $("#av-cerrar").onclick = cerrarAvance;
+document.addEventListener("keydown", e => { if(e.key === "Escape" && $("#avance").classList.contains("on")) cerrarAvance(); });
+$("#av-cambiar").onclick = () => {
+  if(!confirm("¿Cambiar de estudiante? Se borrarán de este equipo tu avance y tus datos. Lo ya enviado al docente no se borra.")) return;
+  // Nota: el contador de infracciones por documento (Fase 3) NO se borra aquí, para que no sirva para evadirlo.
+  LS.del(claveProg()); LS.del("lsm_est"); est = null; prog = { leidas: {}, quizzes: {}, evaluacion: null };
+  $("#avance").classList.remove("on"); $("#f-insc").reset(); renderPestanas(); abrirInscripcion();
+};
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+renderPestanas(); iniciarLectura();
+if(est){ cargarProg(); renderPestanas(); } else abrirInscripcion();
+if(!urlConfigurada()){ console.warn("Envío a Google Sheets no configurado (URL_APPS_SCRIPT)."); if(/[?&]docente=1/.test(location.search)) toast("Modo de prueba: URL_APPS_SCRIPT sin configurar; los datos no se envían."); }
+vaciarCola();
+</script>
+</body>
